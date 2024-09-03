@@ -361,6 +361,40 @@ caller filter 를 사용하면 될 것이다. 그 함수를 마지막(leaf) 노�
 이것들은 replay, report, dump와 `-t`/`--time-filter` 옵션과 함께 사용한 graph 명령의 결과에
 숨겨져 있을 수 있다.
 
+또한, `-L` 옵션으로 필터가 함수의 경로를 출력할 수 있다.
+
+    $ uftrace record -L s-libmain.c t-lib
+    $ uftrace replay --srcline
+    # DURATION     TID     FUNCTION [SOURCE]
+                [  5043] | main() { /* /home/uftrace/tests/s-libmain.c:16 */
+       6.998 us [  5043] |   foo(); /* /home/uftrace/tests/s-libmain.c:11 */
+       9.393 us [  5043] | } /* main */
+
+`@hide`를 붙여 필터가 함수의 경로를 출력하지 않게 할 수 있다.
+
+    $ uftrace record -L s-libmain.c@hide t-lib
+    $ uftrace replay --srcline
+    # DURATION     TID     FUNCTION [SOURCE]
+                [ 14688] | lib_a() { /* /home/uftrace/tests/s-lib.c:10 */
+                [ 14688] |   lib_b() { /* /home/uftrace/tests/s-lib.c:15 */
+       1.505 us [ 14688] |     lib_c(); /* /home/uftrace/tests/s-lib.c:20 */
+       2.816 us [ 14688] |   } /* lib_b */
+       3.181 us [ 14688] | } /* lib_a */
+
+`-Z`/`--size-filter` 옵션으로 작은 함수들만 선택할 수 있다.
+ELF symbols size를 읽어 주어진 값과 비교한다. PLT 함수는 ELF format으로 된 symbol size가 없을 수 있는데, 이때는 PLT 진입 크기를 함수의 크기로 사용한다.
+
+    $ uftrace record -Z 100  t-arg
+    $ uftrace replay
+    # DURATION     TID     FUNCTION
+                [162500] | main() {
+      12.486 us [162500] |   foo();
+       0.505 us [162500] |   many();
+                [162500] |   pass() {
+       0.283 us [162500] |     check();
+       1.449 us [162500] |   } /* pass */
+      18.478 us [162500] | } /* main */
+
 필터링된 함수에 트리거를 설정할 수도 있다.  더 많은 정보는 *TRIGGERS* 항목에서
 참고할 수 있다.
 
