@@ -39,10 +39,6 @@ RECORD 옵션
     이 옵션은 한번 이상 쓰일 수 있다.
     관련 설명은 *DYNAMIC TRACING* 을 참고한다.
 
--Z *SIZE*, \--size-filter=*SIZE*
-:   SIZE 바이트보다 큰 함수들을 동적으로 패치한다.
-    동적추적에 대해서는 *DYNAMIC TRACING* 을 참고한다.
-
 -E *EVENT*, \--event=*EVENT*
 :   이벤트 추적을 활성화한다.  시스템 내에서 사용 가능한 이벤트여야 한다.
 
