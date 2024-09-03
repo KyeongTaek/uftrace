@@ -168,8 +168,7 @@ RECORD 옵션
     기본은 `regex`이다.
 
 \--disable
-:   추적을 사용하지 않은 채로 uftrace를 시작한다. 이것은 `trace_on` 트리거와 함께
-    사용되었을 때만 의미를 가진다.
+:   지원이 종료될 예정이다. `--trace=off`를 사용하기를 권장한다.
 
 \--trace=*STATE*
 :   uftrace tracing을 STATE로 지정한다. 가능한 상태는 `on`과 `off`이다. 기본은 `on`이다.
